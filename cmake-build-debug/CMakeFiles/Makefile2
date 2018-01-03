@@ -60,39 +60,359 @@ CMAKE_SOURCE_DIR = /home/chris/CLionProjects/avl-tree
 CMAKE_BINARY_DIR = /home/chris/CLionProjects/avl-tree/cmake-build-debug
 
 #=============================================================================
-# Target rules for target CMakeFiles/avl_tree.dir
+# Target rules for target CMakeFiles/Main.dir
 
 # All Build rule for target.
-CMakeFiles/avl_tree.dir/all:
-	$(MAKE) -f CMakeFiles/avl_tree.dir/build.make CMakeFiles/avl_tree.dir/depend
-	$(MAKE) -f CMakeFiles/avl_tree.dir/build.make CMakeFiles/avl_tree.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target avl_tree"
-.PHONY : CMakeFiles/avl_tree.dir/all
+CMakeFiles/Main.dir/all: avltree/CMakeFiles/avltree.dir/all
+	$(MAKE) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/depend
+	$(MAKE) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target Main"
+.PHONY : CMakeFiles/Main.dir/all
 
 # Include target in all.
-all: CMakeFiles/avl_tree.dir/all
+all: CMakeFiles/Main.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/avl_tree.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/avl_tree.dir/all
+CMakeFiles/Main.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 4
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Main.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/avl_tree.dir/rule
+.PHONY : CMakeFiles/Main.dir/rule
 
 # Convenience name for target.
-avl_tree: CMakeFiles/avl_tree.dir/rule
+Main: CMakeFiles/Main.dir/rule
 
-.PHONY : avl_tree
-
-# clean rule for target.
-CMakeFiles/avl_tree.dir/clean:
-	$(MAKE) -f CMakeFiles/avl_tree.dir/build.make CMakeFiles/avl_tree.dir/clean
-.PHONY : CMakeFiles/avl_tree.dir/clean
+.PHONY : Main
 
 # clean rule for target.
-clean: CMakeFiles/avl_tree.dir/clean
+CMakeFiles/Main.dir/clean:
+	$(MAKE) -f CMakeFiles/Main.dir/build.make CMakeFiles/Main.dir/clean
+.PHONY : CMakeFiles/Main.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/Main.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory avltree
+
+# Convenience name for "all" pass in the directory.
+avltree/all: avltree/CMakeFiles/avltree.dir/all
+
+.PHONY : avltree/all
+
+# Convenience name for "clean" pass in the directory.
+avltree/clean: avltree/CMakeFiles/avltree.dir/clean
+
+.PHONY : avltree/clean
+
+# Convenience name for "preinstall" pass in the directory.
+avltree/preinstall:
+
+.PHONY : avltree/preinstall
+
+#=============================================================================
+# Target rules for target avltree/CMakeFiles/avltree.dir
+
+# All Build rule for target.
+avltree/CMakeFiles/avltree.dir/all:
+	$(MAKE) -f avltree/CMakeFiles/avltree.dir/build.make avltree/CMakeFiles/avltree.dir/depend
+	$(MAKE) -f avltree/CMakeFiles/avltree.dir/build.make avltree/CMakeFiles/avltree.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles --progress-num=3,4 "Built target avltree"
+.PHONY : avltree/CMakeFiles/avltree.dir/all
+
+# Include target in all.
+all: avltree/CMakeFiles/avltree.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+avltree/CMakeFiles/avltree.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 avltree/CMakeFiles/avltree.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 0
+.PHONY : avltree/CMakeFiles/avltree.dir/rule
+
+# Convenience name for target.
+avltree: avltree/CMakeFiles/avltree.dir/rule
+
+.PHONY : avltree
+
+# clean rule for target.
+avltree/CMakeFiles/avltree.dir/clean:
+	$(MAKE) -f avltree/CMakeFiles/avltree.dir/build.make avltree/CMakeFiles/avltree.dir/clean
+.PHONY : avltree/CMakeFiles/avltree.dir/clean
+
+# clean rule for target.
+clean: avltree/CMakeFiles/avltree.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory googletest-build
+
+# Convenience name for "all" pass in the directory.
+googletest-build/all: googletest-build/googlemock/all
+
+.PHONY : googletest-build/all
+
+# Convenience name for "clean" pass in the directory.
+googletest-build/clean: googletest-build/googlemock/clean
+
+.PHONY : googletest-build/clean
+
+# Convenience name for "preinstall" pass in the directory.
+googletest-build/preinstall: googletest-build/googlemock/preinstall
+
+.PHONY : googletest-build/preinstall
+
+#=============================================================================
+# Directory level rules for directory googletest-build/googlemock
+
+# Convenience name for "all" pass in the directory.
+googletest-build/googlemock/all: googletest-build/googlemock/CMakeFiles/gmock_main.dir/all
+googletest-build/googlemock/all: googletest-build/googlemock/CMakeFiles/gmock.dir/all
+googletest-build/googlemock/all: googletest-build/googlemock/gtest/all
+
+.PHONY : googletest-build/googlemock/all
+
+# Convenience name for "clean" pass in the directory.
+googletest-build/googlemock/clean: googletest-build/googlemock/CMakeFiles/gmock_main.dir/clean
+googletest-build/googlemock/clean: googletest-build/googlemock/CMakeFiles/gmock.dir/clean
+googletest-build/googlemock/clean: googletest-build/googlemock/gtest/clean
+
+.PHONY : googletest-build/googlemock/clean
+
+# Convenience name for "preinstall" pass in the directory.
+googletest-build/googlemock/preinstall: googletest-build/googlemock/gtest/preinstall
+
+.PHONY : googletest-build/googlemock/preinstall
+
+#=============================================================================
+# Target rules for target googletest-build/googlemock/CMakeFiles/gmock_main.dir
+
+# All Build rule for target.
+googletest-build/googlemock/CMakeFiles/gmock_main.dir/all:
+	$(MAKE) -f googletest-build/googlemock/CMakeFiles/gmock_main.dir/build.make googletest-build/googlemock/CMakeFiles/gmock_main.dir/depend
+	$(MAKE) -f googletest-build/googlemock/CMakeFiles/gmock_main.dir/build.make googletest-build/googlemock/CMakeFiles/gmock_main.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles --progress-num=8,9,10,11 "Built target gmock_main"
+.PHONY : googletest-build/googlemock/CMakeFiles/gmock_main.dir/all
+
+# Include target in all.
+all: googletest-build/googlemock/CMakeFiles/gmock_main.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+googletest-build/googlemock/CMakeFiles/gmock_main.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 4
+	$(MAKE) -f CMakeFiles/Makefile2 googletest-build/googlemock/CMakeFiles/gmock_main.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 0
+.PHONY : googletest-build/googlemock/CMakeFiles/gmock_main.dir/rule
+
+# Convenience name for target.
+gmock_main: googletest-build/googlemock/CMakeFiles/gmock_main.dir/rule
+
+.PHONY : gmock_main
+
+# clean rule for target.
+googletest-build/googlemock/CMakeFiles/gmock_main.dir/clean:
+	$(MAKE) -f googletest-build/googlemock/CMakeFiles/gmock_main.dir/build.make googletest-build/googlemock/CMakeFiles/gmock_main.dir/clean
+.PHONY : googletest-build/googlemock/CMakeFiles/gmock_main.dir/clean
+
+# clean rule for target.
+clean: googletest-build/googlemock/CMakeFiles/gmock_main.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target googletest-build/googlemock/CMakeFiles/gmock.dir
+
+# All Build rule for target.
+googletest-build/googlemock/CMakeFiles/gmock.dir/all:
+	$(MAKE) -f googletest-build/googlemock/CMakeFiles/gmock.dir/build.make googletest-build/googlemock/CMakeFiles/gmock.dir/depend
+	$(MAKE) -f googletest-build/googlemock/CMakeFiles/gmock.dir/build.make googletest-build/googlemock/CMakeFiles/gmock.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles --progress-num=5,6,7 "Built target gmock"
+.PHONY : googletest-build/googlemock/CMakeFiles/gmock.dir/all
+
+# Include target in all.
+all: googletest-build/googlemock/CMakeFiles/gmock.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+googletest-build/googlemock/CMakeFiles/gmock.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 3
+	$(MAKE) -f CMakeFiles/Makefile2 googletest-build/googlemock/CMakeFiles/gmock.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 0
+.PHONY : googletest-build/googlemock/CMakeFiles/gmock.dir/rule
+
+# Convenience name for target.
+gmock: googletest-build/googlemock/CMakeFiles/gmock.dir/rule
+
+.PHONY : gmock
+
+# clean rule for target.
+googletest-build/googlemock/CMakeFiles/gmock.dir/clean:
+	$(MAKE) -f googletest-build/googlemock/CMakeFiles/gmock.dir/build.make googletest-build/googlemock/CMakeFiles/gmock.dir/clean
+.PHONY : googletest-build/googlemock/CMakeFiles/gmock.dir/clean
+
+# clean rule for target.
+clean: googletest-build/googlemock/CMakeFiles/gmock.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory googletest-build/googlemock/gtest
+
+# Convenience name for "all" pass in the directory.
+googletest-build/googlemock/gtest/all: googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/all
+googletest-build/googlemock/gtest/all: googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/all
+
+.PHONY : googletest-build/googlemock/gtest/all
+
+# Convenience name for "clean" pass in the directory.
+googletest-build/googlemock/gtest/clean: googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/clean
+googletest-build/googlemock/gtest/clean: googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/clean
+
+.PHONY : googletest-build/googlemock/gtest/clean
+
+# Convenience name for "preinstall" pass in the directory.
+googletest-build/googlemock/gtest/preinstall:
+
+.PHONY : googletest-build/googlemock/gtest/preinstall
+
+#=============================================================================
+# Target rules for target googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir
+
+# All Build rule for target.
+googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/all: googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/all
+	$(MAKE) -f googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/build.make googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/depend
+	$(MAKE) -f googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/build.make googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles --progress-num=14,15 "Built target gtest_main"
+.PHONY : googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/all
+
+# Include target in all.
+all: googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 4
+	$(MAKE) -f CMakeFiles/Makefile2 googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 0
+.PHONY : googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/rule
+
+# Convenience name for target.
+gtest_main: googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/rule
+
+.PHONY : gtest_main
+
+# clean rule for target.
+googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/clean:
+	$(MAKE) -f googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/build.make googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/clean
+.PHONY : googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/clean
+
+# clean rule for target.
+clean: googletest-build/googlemock/gtest/CMakeFiles/gtest_main.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target googletest-build/googlemock/gtest/CMakeFiles/gtest.dir
+
+# All Build rule for target.
+googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/all:
+	$(MAKE) -f googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/build.make googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/depend
+	$(MAKE) -f googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/build.make googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles --progress-num=12,13 "Built target gtest"
+.PHONY : googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/all
+
+# Include target in all.
+all: googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 0
+.PHONY : googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/rule
+
+# Convenience name for target.
+gtest: googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/rule
+
+.PHONY : gtest
+
+# clean rule for target.
+googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/clean:
+	$(MAKE) -f googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/build.make googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/clean
+.PHONY : googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/clean
+
+# clean rule for target.
+clean: googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory test
+
+# Convenience name for "all" pass in the directory.
+test/all: test/CMakeFiles/testAvlTree.dir/all
+
+.PHONY : test/all
+
+# Convenience name for "clean" pass in the directory.
+test/clean: test/CMakeFiles/testAvlTree.dir/clean
+
+.PHONY : test/clean
+
+# Convenience name for "preinstall" pass in the directory.
+test/preinstall:
+
+.PHONY : test/preinstall
+
+#=============================================================================
+# Target rules for target test/CMakeFiles/testAvlTree.dir
+
+# All Build rule for target.
+test/CMakeFiles/testAvlTree.dir/all: avltree/CMakeFiles/avltree.dir/all
+test/CMakeFiles/testAvlTree.dir/all: googletest-build/googlemock/CMakeFiles/gmock.dir/all
+test/CMakeFiles/testAvlTree.dir/all: googletest-build/googlemock/gtest/CMakeFiles/gtest.dir/all
+	$(MAKE) -f test/CMakeFiles/testAvlTree.dir/build.make test/CMakeFiles/testAvlTree.dir/depend
+	$(MAKE) -f test/CMakeFiles/testAvlTree.dir/build.make test/CMakeFiles/testAvlTree.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles --progress-num=16,17,18 "Built target testAvlTree"
+.PHONY : test/CMakeFiles/testAvlTree.dir/all
+
+# Include target in all.
+all: test/CMakeFiles/testAvlTree.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+test/CMakeFiles/testAvlTree.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 10
+	$(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/testAvlTree.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chris/CLionProjects/avl-tree/cmake-build-debug/CMakeFiles 0
+.PHONY : test/CMakeFiles/testAvlTree.dir/rule
+
+# Convenience name for target.
+testAvlTree: test/CMakeFiles/testAvlTree.dir/rule
+
+.PHONY : testAvlTree
+
+# clean rule for target.
+test/CMakeFiles/testAvlTree.dir/clean:
+	$(MAKE) -f test/CMakeFiles/testAvlTree.dir/build.make test/CMakeFiles/testAvlTree.dir/clean
+.PHONY : test/CMakeFiles/testAvlTree.dir/clean
+
+# clean rule for target.
+clean: test/CMakeFiles/testAvlTree.dir/clean
 
 .PHONY : clean
 

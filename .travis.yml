@@ -3,8 +3,7 @@ dist: trusty
 compiler:
   - clang
   - gcc
-os:
-  -linux
+os: linux
 
 before_script:
   - mkdir build
@@ -13,4 +12,4 @@ before_script:
 
 script:
   - make
-  - test/main
+  - ./test/main

@@ -4,6 +4,34 @@
 using namespace ::std;
 
 /********************************************************************
+ * Nodes
+ *******************************************************************/
+
+AvlTree::Node::Node(const int k) : key(k){}
+
+AvlTree::Node::Node(const int k, AvlTree::Node * l, AvlTree::Node *r) : key(k), left(l), right(r){}
+
+AvlTree::Node::~Node() {
+    delete left;
+    delete right;
+}
+
+/********************************************************************
+ * Constructors Destructor
+ *******************************************************************/
+
+
+
+
+AvlTree::~AvlTree() {
+    delete root;
+}
+
+
+
+
+
+/********************************************************************
  * Search
  *******************************************************************/
 
@@ -100,6 +128,9 @@ vector<int> *AvlTree::Node::postorder() const {
     return vec;
 }
 
+
+
+
 /********************************************************************
  * operator<<
  *******************************************************************/
@@ -132,3 +163,4 @@ std::ostream &operator<<(std::ostream &os, const AvlTree &tree) {
     os << "}" << endl;
     return os;
 }
+

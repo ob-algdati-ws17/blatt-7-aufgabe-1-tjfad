@@ -14,7 +14,8 @@ private:
         const int key;
         Node *left = nullptr;
         Node *right = nullptr;
-        Node(const int);
+
+        explicit Node(const int);
         Node(const int, Node *, Node *);
         ~Node();
         vector<int> *preorder() const;  // (Hauptreihenfolge)

@@ -1,5 +1,4 @@
 language: cpp
-dist: trusty
 compiler:
   - clang
   - gcc
@@ -12,4 +11,4 @@ before_script:
 
 script:
   - make
-  - ./test/main
+  - test/testAvlTree

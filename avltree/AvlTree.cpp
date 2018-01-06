@@ -64,22 +64,19 @@ bool AvlTree::Node::search(const int value) const {
  *******************************************************************/
 
 void AvlTree::insert(const int value) {
-    if(root == nullptr){
-        root = new Node(value, nullptr);
-    }else
-        root->insert(value);
+    root = (root == nullptr) ? new Node(value, nullptr) : root->insert(value);
 }
 
-void AvlTree::Node::insert(const int value) {
+AvlTree::Node* AvlTree::Node::insert(const int value) {
     if(key == value)
-        return;
+        return this;
 
     else if(value < key){
         if(left == nullptr) {
             left = new Node(value, this);
             if(right == nullptr) {
                 balance = -1;
-                upin(this);
+                upin();
             }else//No change in height of subtree -> no upin
                 balance = 0;
         }else
@@ -90,34 +87,74 @@ void AvlTree::Node::insert(const int value) {
             right = new Node(value, this);
             if(left == nullptr){
                 balance = +1;
-                upin(this);
+                upin();
             }else
                 balance = 0;
 
         } else
             right->insert(value);
     }
+    return this;
 }
 /********************************************************************
  * upin
  *******************************************************************/
 
-void AvlTree::upin(Node *node){
-    if(node->root == nullptr)
+void AvlTree::Node::upin(){
+    if(root == nullptr)
         return;
-    Node * nodeRoot = node->root;
+    Node * nodeRoot = root;
     //Node is left son
-    if(node->isLeftSon()){
-        if(nodeRoot->balance >= 0)//parent tree was right heavy / equal before left insert
-            nodeRoot->balance -= 1;
-        else{//parent tree was left heavy before left insert
-
+    if(isLeftSon()) {
+        if (nodeRoot->balance == +1){//parent tree was right heavy before left insert -> height hasn't changed
+            nodeRoot->balance = 0;
+            return;
+        }else if(nodeRoot->balance == 0){//parent tree was neutral before left insert -> height +1
+            nodeRoot->balance = -1;
+            nodeRoot->upin();
+        }else if(nodeRoot->balance == -1){//parent tree was left heavy before left insert
+            //TODO rotations
+            if(balance == -1){
+                nodeRoot->rotateRight();
+            }
+        }else{
+            throw "Invariant violated";
         }
     }
-    else if(node->isRightSon()){
-
+    else if(isRightSon()){
+        switch (nodeRoot->balance) {
+            case -1:
+                break;
+            case 0:
+                break;
+            case 1:
+                break;
+            default:
+                throw "Invariant violated";
+        }
     }
 
+}
+/********************************************************************
+ * Rotations
+ *******************************************************************/
+void AvlTree::Node::rotateRight() {
+    auto newRoot = left;
+    left = newRoot->right;
+    if(left != nullptr)
+        left->root = this;
+
+    newRoot->right = this;
+    newRoot->root = root;
+    root = newRoot;
+    if(newRoot->root != nullptr){
+        if(newRoot->root->left == this)
+            newRoot->root->left = newRoot;
+        else if(newRoot->root->right == this)
+            newRoot->root->right = newRoot;
+        else
+            throw "Tree inconsistent";
+    }
 }
 
 bool AvlTree::Node::isRightSon() const {

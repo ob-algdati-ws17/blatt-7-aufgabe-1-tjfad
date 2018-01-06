@@ -30,14 +30,22 @@ private:
         /*
          * Insert in a Node.
          */
-        void insert(const int);
-
+        Node* insert(const int);
         /*
          *
          */
+        void rotateRight();
+        /*
+         *
+         */
+        /*
+         *
+         */
+        void upin();
         bool isLeftSon() const;
 
         bool isRightSon() const;
+
 
         vector<int> *preorder() const;  // (Hauptreihenfolge)
         vector<int> *inorder() const;   // (Symmetrische Reihenfolge)
@@ -46,10 +54,7 @@ private:
 
     Node *root = nullptr;
 
-    /*
-    *
-    */
-    static void upin(Node *);
+
 
 public:
 

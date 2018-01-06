@@ -9,7 +9,11 @@ using namespace ::std;
 
 AvlTree::Node::Node(const int k) : key(k){}
 
+AvlTree::Node::Node(const int k, AvlTree::Node* ro) : key(k), root(ro){}
+
 AvlTree::Node::Node(const int k, AvlTree::Node * l, AvlTree::Node *r) : key(k), left(l), right(r){}
+
+AvlTree::Node::Node(const int k, AvlTree::Node* ro, AvlTree::Node * l, AvlTree::Node *r) : key(k), root(ro), left(l), right(r){}
 
 AvlTree::Node::~Node() {
     delete left;
@@ -46,10 +50,10 @@ bool AvlTree::Node::search(const int value) const {
     if(key == value)
         return true;
 
-    if(key < value && left != nullptr)
+    if(value < key && left != nullptr)
         return left->search(value);
 
-    if(key > value && right != nullptr)
+    if(value > key && right != nullptr)
         return right->search(value);
 
     return false;
@@ -60,7 +64,75 @@ bool AvlTree::Node::search(const int value) const {
  *******************************************************************/
 
 void AvlTree::insert(const int value) {
+    if(root == nullptr){
+        root = new Node(value, nullptr);
+    }else
+        root->insert(value);
+}
 
+void AvlTree::Node::insert(const int value) {
+    if(key == value)
+        return;
+
+    else if(value < key){
+        if(left == nullptr) {
+            left = new Node(value, this);
+            if(right == nullptr) {
+                balance = -1;
+                upin(this);
+            }else//No change in height of subtree -> no upin
+                balance = 0;
+        }else
+            left->insert(value);
+
+    }else if(value > key){
+        if(right == nullptr){
+            right = new Node(value, this);
+            if(left == nullptr){
+                balance = +1;
+                upin(this);
+            }else
+                balance = 0;
+
+        } else
+            right->insert(value);
+    }
+}
+/********************************************************************
+ * upin
+ *******************************************************************/
+
+void AvlTree::upin(Node *node){
+    if(node->root == nullptr)
+        return;
+    Node * nodeRoot = node->root;
+    //Node is left son
+    if(node->isLeftSon()){
+        if(nodeRoot->balance >= 0)//parent tree was right heavy / equal before left insert
+            nodeRoot->balance -= 1;
+        else{//parent tree was left heavy before left insert
+
+        }
+    }
+    else if(node->isRightSon()){
+
+    }
+
+}
+
+bool AvlTree::Node::isRightSon() const {
+    if(root == nullptr)
+        return false;
+    if(this == root->right)
+        return true;
+    return false;
+}
+bool AvlTree::Node::isLeftSon() const {
+    if(root == nullptr)
+        return false;
+    if(this == root->left)
+        return true;
+    return false;
 }
 
 /********************************************************************
@@ -143,7 +215,6 @@ vector<int> *AvlTree::Node::postorder() const {
     vec->push_back(key);
     return vec;
 }
-
 
 
 

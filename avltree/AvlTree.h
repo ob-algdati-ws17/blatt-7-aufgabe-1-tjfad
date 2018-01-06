@@ -12,19 +12,44 @@ private:
 
     struct Node {
         const int key;
+        int balance = 0;
+        Node *root = nullptr;
         Node *left = nullptr;
         Node *right = nullptr;
 
         explicit Node(const int);
+        Node(const int, Node*);
         Node(const int, Node *, Node *);
+        Node(const int, Node* , Node *,Node *);
+
         ~Node();
+        /*
+         * Search in a Node.
+         */
         bool search(const int) const;
+        /*
+         * Insert in a Node.
+         */
+        void insert(const int);
+
+        /*
+         *
+         */
+        bool isLeftSon() const;
+
+        bool isRightSon() const;
+
         vector<int> *preorder() const;  // (Hauptreihenfolge)
         vector<int> *inorder() const;   // (Symmetrische Reihenfolge)
         vector<int> *postorder() const; // (Nebenreihenfolge)
     };
 
     Node *root = nullptr;
+
+    /*
+    *
+    */
+    static void upin(Node *);
 
 public:
 

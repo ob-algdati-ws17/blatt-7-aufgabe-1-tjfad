@@ -18,6 +18,7 @@ private:
         explicit Node(const int);
         Node(const int, Node *, Node *);
         ~Node();
+        bool search(const int) const;
         vector<int> *preorder() const;  // (Hauptreihenfolge)
         vector<int> *inorder() const;   // (Symmetrische Reihenfolge)
         vector<int> *postorder() const; // (Nebenreihenfolge)

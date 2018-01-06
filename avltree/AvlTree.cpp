@@ -36,7 +36,23 @@ AvlTree::~AvlTree() {
  *******************************************************************/
 
 bool AvlTree::search(const int value) const {
+    if (root == nullptr)
+        return false;
+    else
+        return root->search(value);
+}
 
+bool AvlTree::Node::search(const int value) const {
+    if(key == value)
+        return true;
+
+    if(key < value && left != nullptr)
+        return left->search(value);
+
+    if(key > value && right != nullptr)
+        return right->search(value);
+
+    return false;
 }
 
 /********************************************************************

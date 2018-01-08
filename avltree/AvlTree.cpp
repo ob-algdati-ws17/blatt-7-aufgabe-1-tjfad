@@ -116,7 +116,11 @@ void AvlTree::Node::upin(){
             //TODO rotations
             if(balance == -1){
                 nodeRoot->rotateRight();
-            }
+            }else if(balance = +1){
+                rotateLeft();
+                nodeRoot->rotateRight();
+            }else
+                throw "Invariant violated";
         }else{
             throw "Invariant violated";
         }
@@ -124,10 +128,22 @@ void AvlTree::Node::upin(){
     else if(isRightSon()){
         switch (nodeRoot->balance) {
             case -1:
+                nodeRoot->balance = 0;
+                return;
                 break;
             case 0:
+                nodeRoot->balance = +1;
+                nodeRoot->upin();
                 break;
             case 1:
+                if(balance == +1){
+                    nodeRoot->rotateLeft();
+                }else if(balance = -1){
+                    rotateRight();
+                    nodeRoot->rotateLeft();
+                }else
+                    throw "Invariant violated";
+
                 break;
             default:
                 throw "Invariant violated";

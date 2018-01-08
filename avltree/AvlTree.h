@@ -38,6 +38,10 @@ private:
         /*
          *
          */
+        void rotateLeft();
+        /*
+         *
+         */
         /*
          *
          */

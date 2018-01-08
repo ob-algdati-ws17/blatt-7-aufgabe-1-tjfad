@@ -156,6 +156,24 @@ void AvlTree::Node::rotateRight() {
             throw "Tree inconsistent";
     }
 }
+void AvlTree::Node::rotateLeft() {
+    auto newRoot = right;
+    right = newRoot->left;
+    if(right != nullptr)
+        right->root = this;
+
+    newRoot->left = this;
+    newRoot->root = root;
+    root = newRoot;
+    if(newRoot->root != nullptr){
+        if(newRoot->root->left == this)
+            newRoot->root->left = newRoot;
+        else if(newRoot->root->right == this)
+            newRoot->root->right = newRoot;
+        else
+            throw "Tree inconsistent";
+    }
+}
 
 bool AvlTree::Node::isRightSon() const {
     if(root == nullptr)

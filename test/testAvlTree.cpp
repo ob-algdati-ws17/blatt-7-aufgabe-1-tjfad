@@ -14,6 +14,22 @@ TEST(AvlTreeTest, Empty_Tree) {
 
 // insert and search
 
+TEST(AvlTreeTest, Inserts_Rotations) {
+    AvlTree b;
+
+    b.insert(7);
+    EXPECT_TRUE(b.search(7));
+
+
+    b.insert(12213);
+    EXPECT_TRUE(b.search(12213));
+    EXPECT_FALSE(b.search(123));
+    EXPECT_FALSE(b.search(-123));
+    EXPECT_THAT(*b.preorder(), testing::ElementsAre(12213));
+    EXPECT_THAT(*b.inorder(), testing::ElementsAre(12213));
+    EXPECT_THAT(*b.postorder(), testing::ElementsAre(12213));
+}
+
 TEST(AvlTreeTest, One_Node) {
     AvlTree b;
     b.insert(12213);

@@ -65,6 +65,8 @@ bool AvlTree::Node::search(const int value) const {
 
 void AvlTree::insert(const int value) {
     root = (root == nullptr) ? new Node(value, nullptr) : root->insert(value);
+    while(root != nullptr && root->root != nullptr)//check if the root has changed
+        root = root->root;
 }
 
 AvlTree::Node* AvlTree::Node::insert(const int value) {
@@ -116,6 +118,8 @@ void AvlTree::Node::upin(){
             //TODO rotations
             if(balance == -1){
                 nodeRoot->rotateRight();
+                nodeRoot->balance=0;
+                balance=0;
             }else if(balance = +1){
                 rotateLeft();
                 nodeRoot->rotateRight();
@@ -124,7 +128,7 @@ void AvlTree::Node::upin(){
         }else{
             throw "Invariant violated";
         }
-    }//
+    }//i7i5i9i3i6i4i13i14
     else if(isRightSon()){
         switch (nodeRoot->balance) {
             case -1:
@@ -138,6 +142,8 @@ void AvlTree::Node::upin(){
             case 1:
                 if(balance == +1){
                     nodeRoot->rotateLeft();
+                    nodeRoot->balance=0;
+                    balance=0;
                 }else if(balance = -1){
                     rotateRight();
                     nodeRoot->rotateLeft();
@@ -206,12 +212,36 @@ bool AvlTree::Node::isLeftSon() const {
     return false;
 }
 
+bool AvlTree::Node::isLeaf() const {
+    if(left == nullptr && right == nullptr)
+        return true;
+    return false;
+}
 /********************************************************************
  * Remove
  *******************************************************************/
 
 void AvlTree::remove(const int value) {
+    if(root != nullptr)
+        root->remove(value);
+    while(root != nullptr && root->root != nullptr)//check if the root has changed
+        root = root->root;
 
+    return;
+
+}
+
+void AvlTree::Node::remove(const int value) {
+    if(value < key && left != nullptr)
+        return left->remove(value);
+    else if(value > key && right != nullptr)
+        return right->remove(value);
+    else if(key == value){
+        //remove
+        auto toRemove = this;
+
+    }
+    return; //key is not in the tree
 }
 
 /********************************************************************
@@ -289,34 +319,41 @@ vector<int> *AvlTree::Node::postorder() const {
 
 
 
+
 /********************************************************************
  * operator<<
  *******************************************************************/
 std::ostream &operator<<(std::ostream &os, const AvlTree &tree) {
-    function<void(std::ostream &, const int, const AvlTree::Node *, const string)> printToOs
-            = [&](std::ostream &os, const int value, const AvlTree::Node *node, const string l) {
+    function<void(std::ostream &, const int, const int, const AvlTree::Node *, const string)> printToOs
+            = [&](std::ostream &os, const int value, const int balance, const AvlTree::Node *node, const string l) {
 
                 static int nullcount = 0;
 
                 if (node == nullptr) {
                     os << "    null" << nullcount << "[shape=point];" << endl;
-                    os << "    " << value << " -> null" << nullcount
+                    os << "    " << value  <<" -> null" << nullcount
                        << " [label=\"" << l << "\"];" << endl;
                     nullcount++;
                 } else {
-                    os << "    " << value << " -> " << node->key
+                    os << "    " << node->key << "[label=\"key:" << node->key << " bal:" <<node->balance << "\"]" << endl; //print root
+
+                    os << "    " << value << " -> " << node->key  // added to print bal
                        << " [label=\"" << l << "\"];" << endl;
 
-                    printToOs(os, node->key, node->left, "l");
-                    printToOs(os, node->key, node->right, "r");
+                    printToOs(os, node->key, node->balance, node->left, "l");
+
+
+                    printToOs(os, node->key, node->balance, node->right, "r");
                 }
             };
     os << "digraph tree {" << endl;
     if (tree.root == nullptr) {
         os << "    null " << "[shape=point];" << endl;
     } else {
-        printToOs(os, tree.root->key, tree.root->left, "l");
-        printToOs(os, tree.root->key, tree.root->right, "r");
+        os << "    " << tree.root->key << "[label=\"key:" << tree.root->key << " bal:" << tree.root->balance << "\"]" << endl; //print root
+
+        printToOs(os, tree.root->key, tree.root->balance,tree.root->left, "l");
+        printToOs(os, tree.root->key, tree.root->balance,tree.root->right, "r");
     }
     os << "}" << endl;
     return os;

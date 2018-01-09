@@ -42,14 +42,25 @@ private:
         /*
          *
          */
+        void remove(const int);
         /*
          *
          */
         void upin();
+        /*
+         *
+         */
+        void upout();
+        /*
+         *
+         */
         bool isLeftSon() const;
 
         bool isRightSon() const;
 
+        bool isLeaf() const;
+
+        bool isInnerNode() const;
 
         vector<int> *preorder() const;  // (Hauptreihenfolge)
         vector<int> *inorder() const;   // (Symmetrische Reihenfolge)
@@ -69,6 +80,7 @@ public:
     void insert(const int);
 
     void remove(const int);
+
 
     vector<int> *preorder() const;  // (Hauptreihenfolge)
     vector<int> *inorder() const;   // (Symmetrische Reihenfolge)

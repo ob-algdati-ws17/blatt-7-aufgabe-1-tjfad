@@ -124,7 +124,7 @@ void AvlTree::Node::upin(){
         }else{
             throw "Invariant violated";
         }
-    }
+    }//
     else if(isRightSon()){
         switch (nodeRoot->balance) {
             case -1:

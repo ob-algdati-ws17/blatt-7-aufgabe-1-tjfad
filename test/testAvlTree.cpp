@@ -17,17 +17,31 @@ TEST(AvlTreeTest, Empty_Tree) {
 TEST(AvlTreeTest, Inserts_Rotations) {
     AvlTree b;
 
-    b.insert(7);
-    EXPECT_TRUE(b.search(7));
+    b.insert(100);
+    b.insert(50);
+    b.insert(70);
 
+    /*
+     *      70
+     *     /  \
+     *    50  100
+     */
+    EXPECT_THAT(*b.preorder(), testing::ElementsAre(70,50,100));
+    EXPECT_THAT(*b.inorder(), testing::ElementsAre(50,70,100));
+    EXPECT_THAT(*b.postorder(), testing::ElementsAre(50,100,70));
 
-    b.insert(12213);
-    EXPECT_TRUE(b.search(12213));
-    EXPECT_FALSE(b.search(123));
-    EXPECT_FALSE(b.search(-123));
-    EXPECT_THAT(*b.preorder(), testing::ElementsAre(12213));
-    EXPECT_THAT(*b.inorder(), testing::ElementsAre(12213));
-    EXPECT_THAT(*b.postorder(), testing::ElementsAre(12213));
+    b.insert(150);
+    b.insert(120);
+    /*
+     *      70
+     *     /  \
+     *    50  120
+     *       /   \
+     *     100   150
+     */
+    EXPECT_THAT(*b.preorder(), testing::ElementsAre(70,50,120,100,150));
+    EXPECT_THAT(*b.inorder(), testing::ElementsAre(50,70,100,120,150));
+    EXPECT_THAT(*b.postorder(), testing::ElementsAre(50,100,150,120,70));
 }
 
 TEST(AvlTreeTest, One_Node) {

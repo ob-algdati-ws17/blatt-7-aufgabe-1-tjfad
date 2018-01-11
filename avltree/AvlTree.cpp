@@ -121,8 +121,24 @@ void AvlTree::Node::upin(){
                 nodeRoot->balance=0;
                 balance=0;
             }else if(balance = +1){
+                auto newSubRoot = right;
                 rotateLeft();
                 nodeRoot->rotateRight();
+                switch (newSubRoot->balance){
+                    case -1:
+                        newSubRoot->left->balance = 0;
+                        newSubRoot->right->balance = +1;
+                        break;
+                    case 0:
+                        newSubRoot->left->balance = 0;
+                        newSubRoot->right->balance = 0;
+                        break;
+                    case +1:
+                        newSubRoot->left->balance = -1;
+                        newSubRoot->right->balance = 0;
+                        break;
+                }
+                newSubRoot->balance = 0;
             }else
                 throw "Invariant violated";
         }else{
@@ -139,14 +155,30 @@ void AvlTree::Node::upin(){
                 nodeRoot->balance = +1;
                 nodeRoot->upin();
                 break;
-            case 1:
+            case +1:
                 if(balance == +1){
                     nodeRoot->rotateLeft();
                     nodeRoot->balance=0;
                     balance=0;
                 }else if(balance = -1){
+                    auto newSubRoot = left;
                     rotateRight();
                     nodeRoot->rotateLeft();
+                    switch (newSubRoot->balance){
+                        case -1:
+                            newSubRoot->left->balance = 0;
+                            newSubRoot->right->balance = +1;
+                            break;
+                        case 0:
+                            newSubRoot->left->balance = 0;
+                            newSubRoot->right->balance = 0;
+                            break;
+                        case +1:
+                            newSubRoot->left->balance = -1;
+                            newSubRoot->right->balance = 0;
+                            break;
+                    }
+                    newSubRoot->balance = 0;
                 }else
                     throw "Invariant violated";
 

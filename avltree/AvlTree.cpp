@@ -224,6 +224,100 @@ void AvlTree::Node::upin(){
 }
 
 void AvlTree::Node::upout() {
+    if(balance != 0)
+        throw "Invariant violated";
+    if(root == nullptr)//end at root
+        return;
+    if(isLeftSon()){
+        if(root->balance == -1){
+            root->balance = 0;
+            root->upout();
+        }else if(root->balance == 0){
+            root->balance = +1;
+            return;
+        }else if(root->balance == +1){
+            if(root->right->balance == 0){//rotate left root
+                root->rotateLeft();
+                root->root->balance = -1;
+                root->balance = +1;
+                return;
+            }else if(root->right->balance == +1){//rotate left root
+                root->rotateLeft();
+                root->root->balance = 0;
+                root->balance = 0;
+                root->root->upout();
+            }else if(root->right->balance == -1){//rotate right(root->right) left(root)
+                auto newRoot = root->right->left;
+                root->right->rotateRight();
+                root->rotateLeft();
+                switch(newRoot->balance){
+                    case -1://new root was left heavy
+                        newRoot->left->balance = 0;
+                        newRoot->right->balance = +1;
+                        break;
+                    case 0://newRoot was balanced
+                        newRoot->left->balance = 0;
+                        newRoot->right->balance = 0;
+                        break;
+                    case +1://newRoot was right heavy
+                        newRoot->left->balance = -1;
+                        newRoot->right->balance = 0;
+                        break;
+                    default:
+                        throw "Invariant violated";
+                }
+                newRoot->balance = 0;
+
+                newRoot->upout();
+            }
+
+        }else
+            throw "Invariant violated";
+    }else if(isRightSon()){
+        if(root->balance == +1){
+            root->balance = 0;
+            root->upout();
+        }else if(root->balance == 0){
+            root->balance = -1;
+            return;
+        }else if(root->balance == -1) {
+            if (root->left->balance == 0) {//rotate right root
+                root->rotateRight();
+                root->root->balance = -1;
+                root->balance = +1;
+                return;
+            } else if (root->left->balance == -1) {//rotate right root
+                root->rotateRight();
+                root->root->balance = 0;
+                root->balance = 0;
+                root->root->upout();
+            } else if (root->left->balance == +1) {//rotate left(root->right) right(root)
+                auto newRoot = root->left->right;
+                root->left->rotateLeft();
+                root->rotateRight();
+                switch (newRoot->balance) {
+                    case -1://new root was left heavy
+                        newRoot->left->balance = 0;
+                        newRoot->right->balance = +1;
+                        break;
+                    case 0://newRoot was balanced
+                        newRoot->left->balance = 0;
+                        newRoot->right->balance = 0;
+                        break;
+                    case +1://newRoot was right heavy
+                        newRoot->left->balance = -1;
+                        newRoot->right->balance = 0;
+                        break;
+                    default:
+                        throw "Invariant violated";
+                }
+                newRoot->balance = 0;
+
+                newRoot->upout();
+            }
+        }
+    }else
+        throw "Tree inconsistent";
 
 }
 /********************************************************************
@@ -269,28 +363,20 @@ void AvlTree::Node::rotateLeft() {
 bool AvlTree::Node::isRightSon() const {
     if(root == nullptr)
         return false;
-    if(this == root->right)
-        return true;
-    return false;
+    return this == root->right;
 }
 bool AvlTree::Node::isLeftSon() const {
     if(root == nullptr)
         return false;
-    if(this == root->left)
-        return true;
-    return false;
+    return this == root->left;
 }
 
 bool AvlTree::Node::isLeaf() const {
-    if(left == nullptr && right == nullptr)
-        return true;
-    return false;
+    return left == nullptr && right == nullptr;
 }
 
 bool AvlTree::Node::isInnerNode() const {
-    if(left != nullptr && right != nullptr)
-        return true;
-    return false;
+    return left != nullptr && right != nullptr;
 }
 
 /********************************************************************
@@ -300,10 +386,8 @@ bool AvlTree::Node::isInnerNode() const {
 void AvlTree::remove(const int value) {
     if(root != nullptr)
         root = root->remove(value);
-    while(root != nullptr && root->root != nullptr)//check if the root has changed
+    while(root != nullptr && root->root != nullptr)//check if the root has changed #dirty
         root = root->root;
-
-    return;
 
 }
 
@@ -349,7 +433,16 @@ AvlTree::Node* AvlTree::Node::remove(const int value) {
             delete toRemove;
             return nullptr;
         }else if(isInnerNode()) {//remove a node with 1 leaf
-
+            if(balance >= 0){//right heavy
+                auto suc = right->getSymSuccessor(key);
+                key = suc->key;
+                right->remove(key);
+            }else{
+                auto pre = left->getSymPredecessor(key);
+                key = pre->key;
+                left->remove(key);
+            }
+            return this;//TODO
         }else{//only possible is a node with one leaf one inner node as sons
             if(left == nullptr){
                 toRemove = right;
@@ -359,20 +452,20 @@ AvlTree::Node* AvlTree::Node::remove(const int value) {
             }else if(right == nullptr){
                 toRemove = left;
                 key = left->key;
-                right = nullptr;
+                left = nullptr;
                 delete toRemove;
             }else
                 throw "tree inconsistent";
             balance = 0;
-            root->upout();
-            delete  toRemove;
+            upout();
+  //          delete  toRemove;
             return  nullptr;
         }
 
     }
     return nullptr; //key is not in the tree
 }
-
+//i7i5i9i3i6i4i13i14d4d7d5i7i5i9i3i6i4i13i14i-5i-7i8i43i12i4569i1243i123i53i645i31i1253d9d123d14d4d12
 /********************************************************************
  * Traversal
  *******************************************************************/

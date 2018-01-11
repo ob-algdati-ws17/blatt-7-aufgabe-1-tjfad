@@ -59,6 +59,39 @@ bool AvlTree::Node::search(const int value) const {
     return false;
 }
 
+//leftmost node
+AvlTree::Node *AvlTree::Node::getSymSuccessor(const int value) {
+    if(value >= key){
+        if(right != nullptr)
+            return right->getSymSuccessor(value);
+        else
+            return nullptr;
+    }else if(value < key){
+        if(left != nullptr){
+            auto pre = left->getSymSuccessor(value);
+            return pre == nullptr ? this : pre;
+        } else
+          return this;
+    }
+
+}
+
+AvlTree::Node *AvlTree::Node::getSymPredecessor(const int value) {
+    if(value <= key){
+        if(left != nullptr)
+            return left->getSymPredecessor(value);
+        else
+            return nullptr;
+    }else if(value > key){
+        if(right != nullptr){
+            auto pre = right->getSymPredecessor(value);
+            return pre == nullptr ? this : pre;
+        }
+        else
+            return this;
+    }
+}
+
 /********************************************************************
  * Insert
  *******************************************************************/
@@ -120,7 +153,7 @@ void AvlTree::Node::upin(){
                 nodeRoot->rotateRight();
                 nodeRoot->balance=0;
                 balance=0;
-            }else if(balance = +1){
+            }else if(balance == +1){
                 auto newSubRoot = right;
                 rotateLeft();
                 nodeRoot->rotateRight();
@@ -160,7 +193,7 @@ void AvlTree::Node::upin(){
                     nodeRoot->rotateLeft();
                     nodeRoot->balance=0;
                     balance=0;
-                }else if(balance = -1){
+                }else if(balance == -1){
                     auto newSubRoot = left;
                     rotateRight();
                     nodeRoot->rotateLeft();
@@ -253,6 +286,13 @@ bool AvlTree::Node::isLeaf() const {
         return true;
     return false;
 }
+
+bool AvlTree::Node::isInnerNode() const {
+    if(left != nullptr && right != nullptr)
+        return true;
+    return false;
+}
+
 /********************************************************************
  * Remove
  *******************************************************************/
@@ -308,8 +348,25 @@ AvlTree::Node* AvlTree::Node::remove(const int value) {
             }
             delete toRemove;
             return nullptr;
-        }else if(left == nullptr ^ right == nullptr) {//remove a node with 1 leaf
+        }else if(isInnerNode()) {//remove a node with 1 leaf
 
+        }else{//only possible is a node with one leaf one inner node as sons
+            if(left == nullptr){
+                toRemove = right;
+                key = right->key;
+                right = nullptr;
+                delete toRemove;
+            }else if(right == nullptr){
+                toRemove = left;
+                key = left->key;
+                right = nullptr;
+                delete toRemove;
+            }else
+                throw "tree inconsistent";
+            balance = 0;
+            root->upout();
+            delete  toRemove;
+            return  nullptr;
         }
 
     }
@@ -418,7 +475,6 @@ vector<int> *AvlTree::Node::postorder(const bool balances) const {
 
 
 
-
 /********************************************************************
  * operator<<
  *******************************************************************/
@@ -456,5 +512,20 @@ std::ostream &operator<<(std::ostream &os, const AvlTree &tree) {
     }
     os << "}" << endl;
     return os;
+}
+
+
+const int AvlTree::getSymSuccessor(const int value) {
+    if(root == nullptr)
+       return 0;
+    auto suc = root->getSymSuccessor(value);
+    return (suc == nullptr) ? 0 : suc->key;
+}
+
+const int AvlTree::getSymPredecessor(const int value) {
+    if (root == nullptr)
+        return 0;
+    auto pre = root->getSymPredecessor(value);
+    return (pre == nullptr) ? 0 : pre->key;
 }
 

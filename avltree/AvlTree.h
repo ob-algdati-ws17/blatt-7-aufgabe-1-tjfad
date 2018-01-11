@@ -11,7 +11,7 @@ class AvlTree {
 private:
 
     struct Node {
-        const int key;
+        int key;
         int balance = 0;
         Node *root = nullptr;
         Node *left = nullptr;
@@ -62,6 +62,8 @@ private:
 
         bool isInnerNode() const;
 
+        Node* getSymSuccessor(const int);
+        Node* getSymPredecessor(const int);
         vector<int> *preorder(const bool) const;  // (Hauptreihenfolge)
         vector<int> *inorder(const bool) const;   // (Symmetrische Reihenfolge)
         vector<int> *postorder(const bool) const; // (Nebenreihenfolge)
@@ -83,6 +85,8 @@ public:
 
     void remove(const int);
 
+    const int getSymSuccessor(const int);
+    const int getSymPredecessor(const int);
 
     vector<int> *preorder() const;  // (Hauptreihenfolge)
     vector<int> *inorder() const;   // (Symmetrische Reihenfolge)

@@ -12,6 +12,51 @@ TEST(AvlTreeTest, Empty_Tree) {
     EXPECT_EQ(nullptr, b.postorder());
 }
 
+// empty tree
+
+TEST(AvlTreeTest, Predecessor) {
+    AvlTree b;
+
+    b.insert(100);
+    b.insert(50);
+    b.insert(70);
+    b.insert(150);
+    b.insert(120);
+    b.insert(170);
+
+    int pre = b.getSymPredecessor(130);
+    EXPECT_EQ(120,pre);
+    pre = b.getSymPredecessor(180);
+    EXPECT_EQ(170,pre);
+    pre = b.getSymPredecessor(70);
+    EXPECT_EQ(50,pre);
+    pre = b.getSymPredecessor(100);
+    EXPECT_EQ(70,pre);
+    pre = b.getSymPredecessor(40);
+    EXPECT_EQ(0,pre);
+}
+
+TEST(AvlTreeTest, Successor) {
+    AvlTree b;
+
+    b.insert(100);
+    b.insert(50);
+    b.insert(70);
+    b.insert(150);
+    b.insert(120);
+    b.insert(170);
+
+    int pre = b.getSymSuccessor(130);
+    EXPECT_EQ(150,pre);
+    pre = b.getSymSuccessor(180);
+    EXPECT_EQ(0,pre);
+    pre = b.getSymSuccessor(70);
+    EXPECT_EQ(100,pre);
+    pre = b.getSymSuccessor(100);
+    EXPECT_EQ(120,pre);
+    pre = b.getSymSuccessor(40);
+    EXPECT_EQ(50,pre);
+}
 // insert and search
 
 TEST(AvlTreeTest, Inserts_Rotations) {

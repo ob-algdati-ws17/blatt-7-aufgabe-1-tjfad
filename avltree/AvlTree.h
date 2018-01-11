@@ -42,7 +42,7 @@ private:
         /*
          *
          */
-        void remove(const int);
+        Node* remove(const int);
         /*
          *
          */
@@ -62,9 +62,11 @@ private:
 
         bool isInnerNode() const;
 
-        vector<int> *preorder() const;  // (Hauptreihenfolge)
-        vector<int> *inorder() const;   // (Symmetrische Reihenfolge)
-        vector<int> *postorder() const; // (Nebenreihenfolge)
+        vector<int> *preorder(const bool) const;  // (Hauptreihenfolge)
+        vector<int> *inorder(const bool) const;   // (Symmetrische Reihenfolge)
+        vector<int> *postorder(const bool) const; // (Nebenreihenfolge)
+
+
     };
 
     Node *root = nullptr;
@@ -85,6 +87,11 @@ public:
     vector<int> *preorder() const;  // (Hauptreihenfolge)
     vector<int> *inorder() const;   // (Symmetrische Reihenfolge)
     vector<int> *postorder() const; // (Nebenreihenfolge)
+
+    //just for testing
+    vector<int> *bPreorder() const;
+    vector<int> *bInorder() const;
+    vector<int> *bPostorder() const;
 
     friend ostream &operator<<(ostream &, const AvlTree &);
 

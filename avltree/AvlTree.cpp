@@ -255,7 +255,7 @@ bool AvlTree::Node::isLeaf() const {
 
 void AvlTree::remove(const int value) {
     if(root != nullptr)
-        root->remove(value);
+        root = root->remove(value);
     while(root != nullptr && root->root != nullptr)//check if the root has changed
         root = root->root;
 
@@ -263,17 +263,53 @@ void AvlTree::remove(const int value) {
 
 }
 
-void AvlTree::Node::remove(const int value) {
-    if(value < key && left != nullptr)
-        return left->remove(value);
-    else if(value > key && right != nullptr)
-        return right->remove(value);
+AvlTree::Node* AvlTree::Node::remove(const int value) {
+    if(value < key && left != nullptr){
+        left = left->remove(value);
+        return this;
+    }
+
+    else if(value > key && right != nullptr){
+        right = right->remove(value);
+        return this;
+    }
     else if(key == value){
         //remove
         auto toRemove = this;
 
+        if(isLeaf()){//remove a leaf
+            if(root == nullptr){//only one node in the tree
+                delete toRemove;
+                return nullptr;
+            }else if(root->balance == 0){//parent was balanced, is now right/left heavy but height doesnt change
+                if(isRightSon()){
+                    root->right = nullptr;
+                    root->balance = -1;
+
+                }else if(isLeftSon()){
+                    root->left = nullptr;
+                    root->balance = +1;
+                }else
+                    throw "Invariant violated";
+            }else if(root->balance == -1 && isLeftSon()){//parent was left heavy, is now balanced, height decreased by 1
+                root->left = nullptr;
+                root->balance = 0;
+                root->upout();
+            }else if(root->balance == +1 && isRightSon()) {//parent was left heavy, is now balanced, height decreased by 1
+                root->right = nullptr;
+                root->balance = 0;
+                root->upout();
+            }else{//rotations in upout...//parent is now double left/right heavy, rotations needet
+
+            }
+            delete toRemove;
+            return nullptr;
+        }else if(left == nullptr ^ right == nullptr) {//remove a node with 1 leaf
+
+        }
+
     }
-    return; //key is not in the tree
+    return nullptr; //key is not in the tree
 }
 
 /********************************************************************
@@ -283,21 +319,30 @@ void AvlTree::Node::remove(const int value) {
 vector<int> *AvlTree::preorder() const {
     if (root == nullptr)
         return nullptr;
-    return root->preorder();
+    return root->preorder(false);
 }
 
-vector<int> *AvlTree::Node::preorder() const {
+vector<int> *AvlTree::bPreorder() const {
+    if (root == nullptr)
+        return nullptr;
+    return root->preorder(true);
+}
+
+vector<int> *AvlTree::Node::preorder(const bool balances) const {
     auto vec = new vector<int>();
-    // Wurzel in vec
-    vec->push_back(key);
+    // Wurzel oder Balance in vec
+    if(balances)
+        vec->push_back(balance);
+    else
+        vec->push_back(key);
     // linken Nachfolger in vec
     if (left != nullptr) {
-        auto left_vec = left->preorder();
+        auto left_vec = left->preorder(balances);
         vec->insert(vec->end(), left_vec->begin(), left_vec->end());
     }
     // rechten Nachfolger in vec
     if (right != nullptr) {
-        auto right_vec = right->preorder();
+        auto right_vec = right->preorder(balances);
         vec->insert(vec->end(), right_vec->begin(), right_vec->end());
     }
     return vec;
@@ -306,21 +351,30 @@ vector<int> *AvlTree::Node::preorder() const {
 vector<int> *AvlTree::inorder() const {
     if (root == nullptr)
         return nullptr;
-    return root->inorder();
+    return root->inorder(false);
 }
 
-vector<int> *AvlTree::Node::inorder() const {
+vector<int> *AvlTree::bInorder() const {
+    if (root == nullptr)
+        return nullptr;
+    return root->inorder(true);
+}
+
+vector<int> *AvlTree::Node::inorder(const bool balances) const {
     auto vec = new vector<int>();
     // linken Nachfolger in vec
     if (left != nullptr) {
-        auto left_vec = left->inorder();
+        auto left_vec = left->inorder(balances);
         vec->insert(vec->end(), left_vec->begin(), left_vec->end());
     }
-    // Wurzel in vec
-    vec->push_back(key);
+    // Wurzel oder Balance in vec
+    if(balances)
+        vec->push_back(balance);
+    else
+        vec->push_back(key);
     // rechten Nachfolger in vec
     if (right != nullptr) {
-        auto right_vec = right->inorder();
+        auto right_vec = right->inorder(balances);
         vec->insert(vec->end(), right_vec->begin(), right_vec->end());
     }
     return vec;
@@ -329,23 +383,32 @@ vector<int> *AvlTree::Node::inorder() const {
 vector<int> *AvlTree::postorder() const {
     if (root == nullptr)
         return nullptr;
-    return root->postorder();
+    return root->postorder(false);
 }
 
-vector<int> *AvlTree::Node::postorder() const {
+vector<int> *AvlTree::bPostorder() const {
+    if (root == nullptr)
+        return nullptr;
+    return root->postorder(true);
+}
+
+vector<int> *AvlTree::Node::postorder(const bool balances) const {
     auto vec = new vector<int>();
     // linken Nachfolger in vec
     if (left != nullptr) {
-        auto left_vec = left->postorder();
+        auto left_vec = left->postorder(balances);
         vec->insert(vec->end(), left_vec->begin(), left_vec->end());
     }
     // rechten Nachfolger in vec
     if (right != nullptr) {
-        auto right_vec = right->postorder();
+        auto right_vec = right->postorder(balances);
         vec->insert(vec->end(), right_vec->begin(), right_vec->end());
     }
-    // Wurzel in vec
-    vec->push_back(key);
+    // Wurzel oder Balance in vec
+    if(balances)
+        vec->push_back(balance);
+    else
+        vec->push_back(key);
     return vec;
 }
 

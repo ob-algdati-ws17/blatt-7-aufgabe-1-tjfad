@@ -29,6 +29,11 @@ TEST(AvlTreeTest, Inserts_Rotations) {
     EXPECT_THAT(*b.preorder(), testing::ElementsAre(70,50,100));
     EXPECT_THAT(*b.inorder(), testing::ElementsAre(50,70,100));
     EXPECT_THAT(*b.postorder(), testing::ElementsAre(50,100,70));
+    //testing balances
+    EXPECT_THAT(*b.bPreorder(), testing::ElementsAre(0,0,0));
+    EXPECT_THAT(*b.bInorder(), testing::ElementsAre(0,0,0));
+    EXPECT_THAT(*b.bPostorder(), testing::ElementsAre(0,0,0));
+
 
     b.insert(150);
     b.insert(120);
@@ -42,6 +47,27 @@ TEST(AvlTreeTest, Inserts_Rotations) {
     EXPECT_THAT(*b.preorder(), testing::ElementsAre(70,50,120,100,150));
     EXPECT_THAT(*b.inorder(), testing::ElementsAre(50,70,100,120,150));
     EXPECT_THAT(*b.postorder(), testing::ElementsAre(50,100,150,120,70));
+    //testing balances
+    EXPECT_THAT(*b.bPreorder(), testing::ElementsAre(1,0,0,0,0));
+    EXPECT_THAT(*b.bInorder(), testing::ElementsAre(0,1,0,0,0));
+    EXPECT_THAT(*b.bPostorder(), testing::ElementsAre(0,0,0,0,1));
+
+    b.insert(170); //rl(70)
+    /*
+    *       120
+    *     /     \
+    *    70     150
+    *   /  \   /   \
+    *  50 100      170
+
+    */
+    EXPECT_THAT(*b.preorder(), testing::ElementsAre(120,70,50,100,150,170));
+    EXPECT_THAT(*b.inorder(), testing::ElementsAre(50,70,100,120,150,170));
+    EXPECT_THAT(*b.postorder(), testing::ElementsAre(50,100,70,170,150,120));
+    //testing balances
+    EXPECT_THAT(*b.bPreorder(), testing::ElementsAre(0,0,0,0,1,0));
+    EXPECT_THAT(*b.bInorder(), testing::ElementsAre(0,0,0,0,1,0));
+    EXPECT_THAT(*b.bPostorder(), testing::ElementsAre(0,0,0,0,1,0));
 }
 
 TEST(AvlTreeTest, One_Node) {

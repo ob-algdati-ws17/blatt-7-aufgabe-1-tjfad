@@ -6,6 +6,10 @@
 
 using namespace std;
 
+
+
+
+
 class AvlTree {
 
 private:
@@ -67,8 +71,6 @@ private:
         vector<int> *preorder(const bool) const;  // (Hauptreihenfolge)
         vector<int> *inorder(const bool) const;   // (Symmetrische Reihenfolge)
         vector<int> *postorder(const bool) const; // (Nebenreihenfolge)
-
-
     };
 
     Node *root = nullptr;
@@ -99,6 +101,8 @@ public:
 
     friend ostream &operator<<(ostream &, const AvlTree &);
 
+    friend void removeLeaf(Node*);
 };
 
+void removeLeaf(AvlTree::Node*);
 #endif //TREES_AVLTREE_H

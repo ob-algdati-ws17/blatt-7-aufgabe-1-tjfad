@@ -390,7 +390,34 @@ void AvlTree::remove(const int value) {
         root = root->root;
 
 }
+/*
+ if(toRemove->root == nullptr){//only one node in the tree
+        delete toRemove;
+        return nullptr;
+    }else if(root->balance == 0){//parent was balanced, is now right/left heavy but height doesnt change
+        if(isRightSon()){
+            root->right = nullptr;
+            root->balance = -1;
 
+        }else if(isLeftSon()){
+            root->left = nullptr;
+            root->balance = +1;
+        }else
+            throw "Invariant violated";
+    }else if(root->balance == -1 && isLeftSon()){//parent was left heavy, is now balanced, height decreased by 1
+        root->left = nullptr;
+        root->balance = 0;
+        root->upout();
+    }else if(root->balance == +1 && isRightSon()) {//parent was left heavy, is now balanced, height decreased by 1
+        root->right = nullptr;
+        root->balance = 0;
+        root->upout();
+    }else{//rotations in upout...//parent is now double left/right heavy, rotations needet
+        upout();
+    }
+    delete toRemove;
+    return nullptr;
+ */
 AvlTree::Node* AvlTree::Node::remove(const int value) {
     if(value < key && left != nullptr){
         left = left->remove(value);
@@ -406,41 +433,18 @@ AvlTree::Node* AvlTree::Node::remove(const int value) {
         auto toRemove = this;
 
         if(isLeaf()){//remove a leaf
-            if(root == nullptr){//only one node in the tree
-                delete toRemove;
-                return nullptr;
-            }else if(root->balance == 0){//parent was balanced, is now right/left heavy but height doesnt change
-                if(isRightSon()){
-                    root->right = nullptr;
-                    root->balance = -1;
-
-                }else if(isLeftSon()){
-                    root->left = nullptr;
-                    root->balance = +1;
-                }else
-                    throw "Invariant violated";
-            }else if(root->balance == -1 && isLeftSon()){//parent was left heavy, is now balanced, height decreased by 1
-                root->left = nullptr;
-                root->balance = 0;
-                root->upout();
-            }else if(root->balance == +1 && isRightSon()) {//parent was left heavy, is now balanced, height decreased by 1
-                root->right = nullptr;
-                root->balance = 0;
-                root->upout();
-            }else{//rotations in upout...//parent is now double left/right heavy, rotations needet
-
-            }
-            delete toRemove;
+            removeLeaf(this);
+        //    delete toRemove;
             return nullptr;
         }else if(isInnerNode()) {//remove a node with 1 leaf
             if(balance >= 0){//right heavy
                 auto suc = right->getSymSuccessor(key);
                 key = suc->key;
-                right->remove(key);
+                right = right->remove(key);
             }else{
                 auto pre = left->getSymPredecessor(key);
                 key = pre->key;
-                left->remove(key);
+                left = left->remove(key);
             }
             return this;//TODO
         }else{//only possible is a node with one leaf one inner node as sons
@@ -459,13 +463,39 @@ AvlTree::Node* AvlTree::Node::remove(const int value) {
             balance = 0;
             upout();
   //          delete  toRemove;
-            return  nullptr;
+            return this;
         }
 
     }
     return nullptr; //key is not in the tree
 }
-//i7i5i9i3i6i4i13i14d4d7d5i7i5i9i3i6i4i13i14i-5i-7i8i43i12i4569i1243i123i53i645i31i1253d9d123d14d4d12
+
+void removeLeaf(AvlTree::Node * toRemove) {
+    if(toRemove->root == nullptr){//only one node in the tree
+        //falltrough
+
+    }else if(toRemove->root->balance == 0){//parent was balanced, is now right/left heavy but height doesnt change
+        if(toRemove->isRightSon()){
+            toRemove->root->balance = -1;
+        }else if(toRemove->isLeftSon()){
+            toRemove->root->balance = +1;
+        }else
+            throw "Invariant violated";
+    }else if(toRemove->root->balance == -1 && toRemove->isLeftSon()){//parent was left heavy, is now balanced, height decreased by 1
+        toRemove->root->left = nullptr;
+        toRemove->root->balance = 0;
+        toRemove->root->upout();
+    }else if(toRemove->root->balance == +1 && toRemove->isRightSon()) {//parent was left heavy, is now balanced, height decreased by 1
+        toRemove->root->right = nullptr;
+        toRemove->root->balance = 0;
+        toRemove->root->upout();
+    }else{//rotations in upout...//parent is now double left/right heavy, rotations needet
+        toRemove->upout();
+    }
+    delete toRemove;
+
+}
+//i7i5i9i3i6i4i13i14d4d7d5i7i5i9i3i6i4i13i14i-5i-7i8i43i12i4569i1243i123i53i645i31i1253 d9 d123 d14 d4 d12
 /********************************************************************
  * Traversal
  *******************************************************************/
@@ -565,6 +595,7 @@ vector<int> *AvlTree::Node::postorder(const bool balances) const {
         vec->push_back(key);
     return vec;
 }
+
 
 
 

@@ -44,7 +44,7 @@ private:
          */
         void rotateLeft();
         /*
-         *
+         *return the node that was removed.. root points to new root of the tree... delete in tree
          */
         Node* remove(const int);
         /*
@@ -66,6 +66,7 @@ private:
 
         bool isInnerNode() const;
 
+        Node* traceRoot();
         Node* getSymSuccessor(const int);
         Node* getSymPredecessor(const int);
         vector<int> *preorder(const bool) const;  // (Hauptreihenfolge)

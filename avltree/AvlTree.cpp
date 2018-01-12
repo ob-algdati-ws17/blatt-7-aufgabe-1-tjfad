@@ -379,54 +379,37 @@ bool AvlTree::Node::isInnerNode() const {
     return left != nullptr && right != nullptr;
 }
 
+AvlTree::Node *AvlTree::Node::traceRoot() {
+    auto root = this;
+    while(root->root != nullptr)root = root->root;
+    return root;
+}
+
 /********************************************************************
  * Remove
  *******************************************************************/
 
 void AvlTree::remove(const int value) {
-    if(root != nullptr)
-        root = root->remove(value);
-    while(root != nullptr && root->root != nullptr)//check if the root has changed #dirty
-        root = root->root;
+    Node* removedNode;
+    if(root != nullptr){
+        removedNode = root->remove(value);
+        if(removedNode != nullptr){
+
+            root = removedNode->root;
+            removedNode->left = nullptr;//just for safety reasons
+            removedNode->right = nullptr;
+            delete removedNode;
+        }
+    }
 
 }
-/*
- if(toRemove->root == nullptr){//only one node in the tree
-        delete toRemove;
-        return nullptr;
-    }else if(root->balance == 0){//parent was balanced, is now right/left heavy but height doesnt change
-        if(isRightSon()){
-            root->right = nullptr;
-            root->balance = -1;
 
-        }else if(isLeftSon()){
-            root->left = nullptr;
-            root->balance = +1;
-        }else
-            throw "Invariant violated";
-    }else if(root->balance == -1 && isLeftSon()){//parent was left heavy, is now balanced, height decreased by 1
-        root->left = nullptr;
-        root->balance = 0;
-        root->upout();
-    }else if(root->balance == +1 && isRightSon()) {//parent was left heavy, is now balanced, height decreased by 1
-        root->right = nullptr;
-        root->balance = 0;
-        root->upout();
-    }else{//rotations in upout...//parent is now double left/right heavy, rotations needet
-        upout();
-    }
-    delete toRemove;
-    return nullptr;
- */
 AvlTree::Node* AvlTree::Node::remove(const int value) {
     if(value < key && left != nullptr){
-        left = left->remove(value);
-        return this;
+        return left->remove(value);
     }
-
     else if(value > key && right != nullptr){
-        right = right->remove(value);
-        return this;
+        return right->remove(value);
     }
     else if(key == value){
         //remove
@@ -435,50 +418,55 @@ AvlTree::Node* AvlTree::Node::remove(const int value) {
         if(isLeaf()){//remove a leaf
             removeLeaf(this);
         //    delete toRemove;
-            return nullptr;
+
+            return this;
         }else if(isInnerNode()) {//remove a node with 1 leaf
             if(balance >= 0){//right heavy
                 auto suc = right->getSymSuccessor(key);
                 key = suc->key;
-                right = right->remove(key);
+                toRemove = right->remove(key);
             }else{
                 auto pre = left->getSymPredecessor(key);
                 key = pre->key;
-                left = left->remove(key);
+                toRemove = left->remove(key);
             }
-            return this;//TODO
+            return toRemove;//TODO
         }else{//only possible is a node with one leaf one inner node as sons
-            if(left == nullptr){
+            if(left == nullptr){//right must be a leaf change keys and remove right
                 toRemove = right;
                 key = right->key;
                 right = nullptr;
-                delete toRemove;
-            }else if(right == nullptr){
+            }else if(right == nullptr){//left must be a leaf
                 toRemove = left;
                 key = left->key;
                 left = nullptr;
-                delete toRemove;
             }else
                 throw "tree inconsistent";
             balance = 0;
             upout();
-  //          delete  toRemove;
-            return this;
+            toRemove->root = traceRoot();
+            //to remove was a fleaf r/l should be null
+            return toRemove;
         }
 
+    }else{
+        return nullptr;
     }
-    return nullptr; //key is not in the tree
+
 }
 
 void removeLeaf(AvlTree::Node * toRemove) {
     if(toRemove->root == nullptr){//only one node in the tree
-        //falltrough
+        toRemove->root = nullptr;
+        return;
 
     }else if(toRemove->root->balance == 0){//parent was balanced, is now right/left heavy but height doesnt change
         if(toRemove->isRightSon()){
             toRemove->root->balance = -1;
+            toRemove->root->right = nullptr;
         }else if(toRemove->isLeftSon()){
             toRemove->root->balance = +1;
+            toRemove->root->left = nullptr;
         }else
             throw "Invariant violated";
     }else if(toRemove->root->balance == -1 && toRemove->isLeftSon()){//parent was left heavy, is now balanced, height decreased by 1
@@ -489,10 +477,16 @@ void removeLeaf(AvlTree::Node * toRemove) {
         toRemove->root->right = nullptr;
         toRemove->root->balance = 0;
         toRemove->root->upout();
-    }else{//rotations in upout...//parent is now double left/right heavy, rotations needet
+    }else if(toRemove->root->balance == +1 && toRemove->isLeftSon() ){
         toRemove->upout();
-    }
-    delete toRemove;
+        toRemove->root->left = nullptr;
+    }else if( toRemove->root->balance == -1 && toRemove->isRightSon()){//rotations in upout...//parent is now double left/right heavy, rotations needet
+        toRemove->upout();
+        toRemove->root->right = nullptr;
+    }else
+        throw "Tree inconsistent";
+    toRemove->root = toRemove->traceRoot();
+    return;
 
 }
 //i7i5i9i3i6i4i13i14d4d7d5i7i5i9i3i6i4i13i14i-5i-7i8i43i12i4569i1243i123i53i645i31i1253 d9 d123 d14 d4 d12

@@ -277,6 +277,95 @@ TEST(AvlTreeTest, Remove_Leaf_Height_Changes) {
     EXPECT_THAT(*b.bPostorder(), testing::ElementsAre(0,1,0,-1));
 
 }
+TEST(AvlTreeTest, Remove_InnerNodeWithOneSon_No_Height_Change) {
+    AvlTree b;
+//i100i50i70i150i120i170i40i60i130i160
+    b.insert(100);
+    b.insert(50);
+    b.insert(70);
+    b.insert(150);
+    b.insert(120);
+    b.insert(170);
+    b.insert(40);
+    b.insert(60);
+    b.insert(130);
+    b.insert(160);
+    /*
+    *            120
+    *          /     \
+    *         70     150
+    *        /  \   /   \
+    *       50 100 130  170
+    *      /  \        /
+    *     40  60     160
+    */
+    EXPECT_THAT(*b.preorder(), testing::ElementsAre(120,70,50,40,60,100,150,130,170,160));
+    EXPECT_THAT(*b.inorder(), testing::ElementsAre(40,50,60,70,100,120,130,150,160,170));
+    EXPECT_THAT(*b.postorder(), testing::ElementsAre(40,60,50,100,70,130,160,170,150,120));
+    //testing balances
+    EXPECT_THAT(*b.bPreorder(), testing::ElementsAre(0,-1,0,0,0,0,1,0,-1,0));
+    EXPECT_THAT(*b.bInorder(), testing::ElementsAre(0,0,0,-1,0,0,0,1,0,-1));
+    EXPECT_THAT(*b.bPostorder(), testing::ElementsAre(0,0,0,0,-1,0,0,-1,1,0));
+    /*Remove 170 170->160remove 160
+    *
+    *
+    *            120
+    *          /     \
+    *         70     150
+    *        /  \   /   \
+    *       50 100 130  160
+    *      /  \
+    *     40  60
+    */
+    b.remove(170);
+    EXPECT_THAT(*b.preorder(), testing::ElementsAre(120,70,50,40,60,100,150,130,160));
+    EXPECT_THAT(*b.inorder(), testing::ElementsAre(40,50,60,70,100,120,130,150,160));
+    EXPECT_THAT(*b.postorder(), testing::ElementsAre(40,60,50,100,70,130,160,150,120));
+    //testing balances
+    EXPECT_THAT(*b.bPreorder(), testing::ElementsAre(-1,-1,0,0,0,0,0,0,0));
+    EXPECT_THAT(*b.bInorder(), testing::ElementsAre(0,0,0,-1,0,-1,0,0,0));
+    EXPECT_THAT(*b.bPostorder(), testing::ElementsAre(0,0,0,0,-1,0,0,0,-1));
+    /*Remove 130
+    * Remove 150 150->160  ->  RR120
+    *
+    *
+    *
+    *          70
+    *        /    \
+    *       50    120
+    *      /  \   /  \
+    *     40  60 100 160
+    */
+    b.remove(130);
+    b.remove(150);
+    EXPECT_THAT(*b.preorder(), testing::ElementsAre(70,50,40,60,120,100,160));
+    EXPECT_THAT(*b.inorder(), testing::ElementsAre(40,50,60,70,100,120,160));
+    EXPECT_THAT(*b.postorder(), testing::ElementsAre(40,60,50,100,160,120,70));
+    //testing balances
+    EXPECT_THAT(*b.bPreorder(), testing::ElementsAre(0,0,0,0,0,0,0));
+    EXPECT_THAT(*b.bInorder(), testing::ElementsAre(0,0,0,0,0,0,0));
+    EXPECT_THAT(*b.bPostorder(), testing::ElementsAre(0,0,0,0,0,0,0));
+    /*Remove 60
+   * Remove 50 LR70
+   *
+   *          70
+    *        /   \
+    *       40   120
+    *            /  \
+    *          100  160
+   */
+    b.remove(60);
+    b.remove(50);
+    EXPECT_THAT(*b.preorder(), testing::ElementsAre(70,40,120,100,160));
+    EXPECT_THAT(*b.inorder(), testing::ElementsAre(40,70,100,120,160));
+    EXPECT_THAT(*b.postorder(), testing::ElementsAre(40,100,160,120,70));
+    //testing balances
+    EXPECT_THAT(*b.bPreorder(), testing::ElementsAre(1,0,0,0,0));
+    EXPECT_THAT(*b.bInorder(), testing::ElementsAre(0,1,0,0,0));
+    EXPECT_THAT(*b.bPostorder(), testing::ElementsAre(0,0,0,0,1));
+
+
+}
 
 TEST(AvlTreeTest, One_Node) {
     AvlTree b;

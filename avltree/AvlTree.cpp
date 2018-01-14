@@ -288,7 +288,7 @@ void AvlTree::Node::upout() {
                 return;
             } else if (root->left->balance == -1) {//rotate right root
                 root->rotateRight();
-                root->root->balance = 0;
+                root->root->balance = 0; //Root came one down, now has a root 100%
                 root->balance = 0;
                 root->root->upout();
             } else if (root->left->balance == +1) {//rotate left(root->right) right(root)

@@ -105,5 +105,5 @@ public:
     friend void removeLeaf(Node*);
 };
 
-void removeLeaf(AvlTree::Node*);
+
 #endif //TREES_AVLTREE_H

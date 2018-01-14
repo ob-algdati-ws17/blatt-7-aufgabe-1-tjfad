@@ -76,7 +76,7 @@ private:
 
     Node *root = nullptr;
 
-
+    friend void removeLeaf(Node*);
 
 public:
 
@@ -102,7 +102,7 @@ public:
 
     friend ostream &operator<<(ostream &, const AvlTree &);
 
-    friend void removeLeaf(Node*);
+
 };
 
 

@@ -23,7 +23,14 @@ TEST(AvlTreeTest, Predecessor) {
     b.insert(150);
     b.insert(120);
     b.insert(170);
+/*
+    *       120
+    *     /     \
+    *    70     150
+    *   /  \   /   \
+    *  50 100      170
 
+    */
     int pre = b.getSymPredecessor(130);
     EXPECT_EQ(120,pre);
     pre = b.getSymPredecessor(180);
@@ -48,14 +55,16 @@ TEST(AvlTreeTest, Successor) {
 
     int pre = b.getSymSuccessor(130);
     EXPECT_EQ(150,pre);
-    pre = b.getSymSuccessor(180);
-    EXPECT_EQ(0,pre);
+   // pre = b.getSymSuccessor(180);
+  //  EXPECT_EQ(0,pre);
     pre = b.getSymSuccessor(70);
     EXPECT_EQ(100,pre);
     pre = b.getSymSuccessor(100);
     EXPECT_EQ(120,pre);
     pre = b.getSymSuccessor(40);
     EXPECT_EQ(50,pre);
+    pre = b.getSymSuccessor(700);
+    EXPECT_EQ(0,pre);
 }
 // insert and search
 

@@ -61,6 +61,14 @@ bool AvlTree::Node::search(const int value) const {
 
 //leftmost node
 AvlTree::Node *AvlTree::Node::getSymSuccessor(const int value) {
+    /*
+    *       120
+    *     /     \
+    *    70     150
+    *   /  \   /   \
+    *  50 100      170
+
+    */
     if(value >= key){
         if(right != nullptr)
             return right->getSymSuccessor(value);
@@ -77,6 +85,14 @@ AvlTree::Node *AvlTree::Node::getSymSuccessor(const int value) {
 }
 
 AvlTree::Node *AvlTree::Node::getSymPredecessor(const int value) {
+    /*
+   *       120
+   *     /     \
+   *    70     150
+   *   /  \   /   \
+   *  50 100      170
+
+   */
     if(value <= key){
         if(left != nullptr)
             return left->getSymPredecessor(value);
@@ -85,7 +101,11 @@ AvlTree::Node *AvlTree::Node::getSymPredecessor(const int value) {
     }else if(value > key){
         if(right != nullptr){
             auto pre = right->getSymPredecessor(value);
-            return pre == nullptr ? this : pre;
+            if (pre == nullptr) {
+                return this;
+            } else {
+                return pre;
+            }
         }
         else
             return this;
@@ -140,36 +160,45 @@ void AvlTree::Node::upin(){
         return;
     Node * nodeRoot = root;
     //Node is left son
-    if(isLeftSon()) {
+    if(isLeftSon()) {//i100i150i50i170i40
         if (nodeRoot->balance == +1){//parent tree was right heavy before left insert -> height hasn't changed
+
             nodeRoot->balance = 0;
             return;
         }else if(nodeRoot->balance == 0){//parent tree was neutral before left insert -> height +1
+
             nodeRoot->balance = -1;
             nodeRoot->upin();
         }else if(nodeRoot->balance == -1){//parent tree was left heavy before left insert
-            //TODO rotations
+
             if(balance == -1){
+
                 nodeRoot->rotateRight();
                 nodeRoot->balance=0;
                 balance=0;
             }else if(balance == +1){
+
                 auto newSubRoot = right;
                 rotateLeft();
                 nodeRoot->rotateRight();
                 switch (newSubRoot->balance){
                     case -1:
+
                         newSubRoot->left->balance = 0;
                         newSubRoot->right->balance = +1;
                         break;
                     case 0:
+
                         newSubRoot->left->balance = 0;
                         newSubRoot->right->balance = 0;
                         break;
                     case +1:
+
                         newSubRoot->left->balance = -1;
                         newSubRoot->right->balance = 0;
                         break;
+                    default:
+                        throw "Invariant violated";
                 }
                 newSubRoot->balance = 0;
             }else
@@ -181,35 +210,44 @@ void AvlTree::Node::upin(){
     else if(isRightSon()){
         switch (nodeRoot->balance) {
             case -1:
+
                 nodeRoot->balance = 0;
-                return;
                 break;
             case 0:
+
                 nodeRoot->balance = +1;
                 nodeRoot->upin();
                 break;
             case +1:
+
                 if(balance == +1){
+
                     nodeRoot->rotateLeft();
                     nodeRoot->balance=0;
                     balance=0;
                 }else if(balance == -1){
+
                     auto newSubRoot = left;
                     rotateRight();
                     nodeRoot->rotateLeft();
                     switch (newSubRoot->balance){
                         case -1:
+
                             newSubRoot->left->balance = 0;
                             newSubRoot->right->balance = +1;
                             break;
                         case 0:
+
                             newSubRoot->left->balance = 0;
                             newSubRoot->right->balance = 0;
                             break;
                         case +1:
+
                             newSubRoot->left->balance = -1;
                             newSubRoot->right->balance = 0;
                             break;
+                        default:
+                            throw "Invariant violated";
                     }
                     newSubRoot->balance = 0;
                 }else
@@ -252,14 +290,17 @@ void AvlTree::Node::upout() {
                 root->rotateLeft();
                 switch(newRoot->balance){
                     case -1://new root was left heavy
+                        cout << "Case L-1" << endl;
                         newRoot->left->balance = 0;
                         newRoot->right->balance = +1;
                         break;
                     case 0://newRoot was balanced
+                        cout << "Case L-2" << endl;
                         newRoot->left->balance = 0;
                         newRoot->right->balance = 0;
                         break;
                     case +1://newRoot was right heavy
+                        cout << "Case L-3" << endl;
                         newRoot->left->balance = -1;
                         newRoot->right->balance = 0;
                         break;
@@ -283,8 +324,8 @@ void AvlTree::Node::upout() {
         }else if(root->balance == -1) {
             if (root->left->balance == 0) {//rotate right root
                 root->rotateRight();
-                root->root->balance = -1;
-                root->balance = +1;
+                root->root->balance = +1;
+                root->balance = -1;
                 return;
             } else if (root->left->balance == -1) {//rotate right root
                 root->rotateRight();
@@ -297,14 +338,17 @@ void AvlTree::Node::upout() {
                 root->rotateRight();
                 switch (newRoot->balance) {
                     case -1://new root was left heavy
+                        cout << "Case R-1" << endl;
                         newRoot->left->balance = 0;
                         newRoot->right->balance = +1;
                         break;
                     case 0://newRoot was balanced
+                        cout << "Case R-2" << endl;
                         newRoot->left->balance = 0;
                         newRoot->right->balance = 0;
                         break;
                     case +1://newRoot was right heavy
+                        cout << "Case R-3" << endl;
                         newRoot->left->balance = -1;
                         newRoot->right->balance = 0;
                         break;
@@ -417,9 +461,7 @@ AvlTree::Node* AvlTree::Node::remove(const int value) {
 
         if(isLeaf()){//remove a leaf
             removeLeaf(this);
-        //    delete toRemove;
-
-            return this;
+            return toRemove;
         }else if(isInnerNode()) {//remove a node with 1 leaf
             if(balance >= 0){//right heavy
                 auto suc = right->getSymSuccessor(key);
@@ -430,7 +472,6 @@ AvlTree::Node* AvlTree::Node::remove(const int value) {
                 key = pre->key;
                 toRemove = left->remove(key);
             }
-            return toRemove;//TODO
         }else{//only possible is a node with one leaf one inner node as sons
             if(left == nullptr){//right must be a leaf change keys and remove right
                 toRemove = right;
@@ -444,11 +485,12 @@ AvlTree::Node* AvlTree::Node::remove(const int value) {
                 throw "tree inconsistent";
             balance = 0;
             upout();
-            toRemove->root = traceRoot();
-            //to remove was a fleaf r/l should be null
-            return toRemove;
-        }
 
+            //to remove was a fleaf r/l should be null
+
+        }
+        toRemove->root = traceRoot();
+        return toRemove;
     }else{
         return nullptr;
     }
@@ -457,7 +499,7 @@ AvlTree::Node* AvlTree::Node::remove(const int value) {
 
 void removeLeaf(AvlTree::Node * toRemove) {
     if(toRemove->root == nullptr){//only one node in the tree
-        toRemove->root = nullptr;
+
         return;
 
     }else if(toRemove->root->balance == 0){//parent was balanced, is now right/left heavy but height doesnt change
@@ -486,14 +528,13 @@ void removeLeaf(AvlTree::Node * toRemove) {
     }else
         throw "Tree inconsistent";
     toRemove->root = toRemove->traceRoot();
-    return;
-
 }
 //i7i5i9i3i6i4i13i14d4d7d5i7i5i9i3i6i4i13i14i-5i-7i8i43i12i4569i1243i123i53i645i31i1253 d9 d123 d14 d4 d12
 /********************************************************************
  * Traversal
  *******************************************************************/
-
+//i7i5i9i3i6i4i13i14d4d7d5i7i5i9i3i6i4i13i14i-5i-7i8i43i12i4569i1243i123i53i645i31i1253 d9 d123 d14 d4 d12d53d31d13d8d43d645d-7d5d7d1243
+//i7i5i9i3i6i4i13i14d4d7d5i7i5i9i3i6i4i13i14i-5i-7i8i43i12i4569i1243i123i53i645i31i1253 d9 d123 d14 d4 d12 d6d4d645i645d-5d8d12d3d5d123d1253 ,d1243
 vector<int> *AvlTree::preorder() const {
     if (root == nullptr)
         return nullptr;
@@ -598,25 +639,25 @@ vector<int> *AvlTree::Node::postorder(const bool balances) const {
  *******************************************************************/
 std::ostream &operator<<(std::ostream &os, const AvlTree &tree) {
     function<void(std::ostream &, const int, const int, const AvlTree::Node *, const string)> printToOs
-            = [&](std::ostream &os, const int value, const int balance, const AvlTree::Node *node, const string l) {
+            = [&](std::ostream &osi, const int value, const int balance, const AvlTree::Node *node, const string l) {
 
                 static int nullcount = 0;
 
                 if (node == nullptr) {
-                    os << "    null" << nullcount << "[shape=point];" << endl;
-                    os << "    " << value  <<" -> null" << nullcount
+                    osi << "    null" << nullcount << "[shape=point];" << endl;
+                    osi << "    " << value  <<" -> null" << nullcount
                        << " [label=\"" << l << "\"];" << endl;
                     nullcount++;
                 } else {
-                    os << "    " << node->key << "[label=\"key:" << node->key << " bal:" <<node->balance << "\"]" << endl; //print root
+                    osi << "    " << node->key << "[label=\"key:" << node->key << " bal:" <<node->balance << "\"]" << endl; //print root
 
-                    os << "    " << value << " -> " << node->key  // added to print bal
+                    osi << "    " << value << " -> " << node->key  // added to print bal
                        << " [label=\"" << l << "\"];" << endl;
 
-                    printToOs(os, node->key, node->balance, node->left, "l");
+                    printToOs(osi, node->key, node->balance, node->left, "l");
 
 
-                    printToOs(os, node->key, node->balance, node->right, "r");
+                    printToOs(osi, node->key, node->balance, node->right, "r");
                 }
             };
     os << "digraph tree {" << endl;

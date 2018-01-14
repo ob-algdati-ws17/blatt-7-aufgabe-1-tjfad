@@ -121,7 +121,8 @@ void AvlTree::insert(const int value) {
     while(root != nullptr && root->root != nullptr)//check if the root has changed
         root = root->root;
 }
-
+//i50i10i40i30i90i80i20i7i60i100
+//i32i64i64i12i56i23i96i43934i292i29235i46i94639346i2
 AvlTree::Node* AvlTree::Node::insert(const int value) {
     if(key == value)
         return this;

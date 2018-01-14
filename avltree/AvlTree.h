@@ -5,11 +5,11 @@
 #include <vector>
 
 using namespace std;
-
-
-
-
-
+/**
+ * AvlTree. Abgabe für Algorythmen und Datanstrukturen I SS2018
+ * Author: Christoph Hahn
+ * Mail: hahn0@hm.edu
+ */
 class AvlTree {
 
 private:
@@ -78,28 +78,106 @@ private:
 
     friend void removeLeaf(Node*);
 
-public:
+    friend class AvlTreeTest;
 
+public:
+    /**
+     * Destructor
+     */
     ~AvlTree();
 
+    /**
+     * Search for an Element in the tree.
+     * @return true if found else false.
+     */
     bool search(const int) const;
-
+    /**
+     * Insert an Element in the Tree.
+     */
     void insert(const int);
-
+    /**
+     * Remove an Element from tree.
+     */
     void remove(const int);
 
+    /**
+     * Get the next greater int from the tree. If no greater 0.
+     * @returnnext greater int from the tree.
+     */
     const int getSymSuccessor(const int);
+    /**
+     * Get the next smaller int from the tree. If no smaller 0.
+     * @return next smaller int from the tree.
+     */
     const int getSymPredecessor(const int);
 
+    /**
+     * Get the values of the nodes in preorder.
+     *
+     * key
+     * left
+     * right
+     * @return values of the nodes in preorder.
+     */
     vector<int> *preorder() const;  // (Hauptreihenfolge)
+
+    /**
+     * * Get the values of the nodes in order.
+     *
+     * left
+     * key
+     * right
+     * @return values of the nodes in order.
+     */
     vector<int> *inorder() const;   // (Symmetrische Reihenfolge)
+
+    /**
+     * Get the values of the nodes in postorder.
+     *
+     * left
+     * right
+     * key
+     * @return values of the nodes in postorder.
+     */
     vector<int> *postorder() const; // (Nebenreihenfolge)
 
     //just for testing
-    vector<int> *bPreorder() const;
-    vector<int> *bInorder() const;
-    vector<int> *bPostorder() const;
 
+    /**
+     * Get the balances of the nodes in preorder.
+     *
+     * key
+     * left
+     * right
+     * @return balances of the nodes in preorder.
+     */
+    vector<int> *bPreorder() const;
+    /*
+     *
+     */
+    /**
+     * Get the balances of the nodes in order.
+     *
+     * left
+     * key
+     * right
+     * @return balances of the nodes in order.
+     */
+    vector<int> *bInorder() const;
+    /**
+     * Get the balances of the nodes in postorder.
+     *
+     * left
+     * right
+     * key
+     *
+     * @return balances of the nodes in postorder.
+     */
+    vector<int> *bPostorder() const;
+    /**
+     * Output a tree.
+     * @return
+     */
     friend ostream &operator<<(ostream &, const AvlTree &);
 
 
